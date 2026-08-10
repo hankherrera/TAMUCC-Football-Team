@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odds — The League</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --turf-dark:#122A20;
+  --turf:#1E4632;
+  --turf-light:#2D6144;
+  --chalk:#F3EFE2;
+  --chalk-dim:#C9C2AC;
+  --gold:#B87333;
+  --score-red:#C1442B;
+  --ink:#0C1912;
+  --line: rgba(243,239,226,0.14);
+  --radius:4px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--turf-dark);
+  color:var(--chalk);
+  font-family:'Inter',sans-serif;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.yard-lines{
+  position:fixed; inset:0;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, var(--line) 119px, var(--line) 120px);
+  pointer-events:none;
+  z-index:0;
+  opacity:0.6;
+}
+a{color:inherit;}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
+
+header.site{
+  position:sticky; top:0; z-index:50;
+  background:var(--turf-dark);
+  border-bottom:1px solid var(--line);
+}
+nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 24px; max-width:1080px; margin:0 auto;
+}
+.brand{
+  font-family:'Anton', sans-serif;
+  letter-spacing:0.03em;
+  font-size:22px;
+  text-transform:uppercase;
+  display:flex; align-items:center; gap:10px;
+  text-decoration:none;
+}
+.brand .dot{
+  width:10px;height:10px; background:var(--gold); border-radius:50%;
+  box-shadow:0 0 0 3px rgba(184,115,51,0.25);
+}
+.navlinks{display:flex; gap:28px; font-family:'IBM Plex Mono',monospace; font-size:13px; text-transform:uppercase; letter-spacing:0.06em;}
+.navlinks a{text-decoration:none; color:var(--chalk-dim); padding:6px 0; border-bottom:2px solid transparent; transition:all .15s ease;}
+.navlinks a:hover, .navlinks a.active{color:var(--gold); border-color:var(--gold);}
+.nav-toggle{display:none; background:none; border:1px solid var(--line); color:var(--chalk); font-family:'IBM Plex Mono',monospace; padding:6px 10px; border-radius:var(--radius); font-size:12px;}
+
+.back-link{
+  display:inline-flex; align-items:center; gap:6px; text-decoration:none;
+  font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--chalk-dim);
+  margin-bottom:28px; transition:color .15s ease;
+}
+.back-link:hover{color:var(--gold);}
+.page-head{padding:48px 0 8px;}
+
+section{padding:56px 24px; position:relative; z-index:1; border-top:1px solid var(--line);}
+.section-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  margin-bottom:24px; flex-wrap:wrap;
+}
+.section-num{
+  font-family:'IBM Plex Mono',monospace; color:var(--gold); font-size:13px; letter-spacing:0.08em;
+}
+h2{
+  font-family:'Anton', sans-serif; text-transform:uppercase; font-size:clamp(28px,4vw,40px);
+  letter-spacing:0.01em;
+}
+.section-desc{color:var(--chalk-dim); font-size:15px; max-width:520px;}
+
+.disclaimer{
+  font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--chalk-dim);
+  background:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:12px 16px; margin-bottom:32px; max-width:640px;
+}
+.disclaimer strong{color:var(--gold);}
+
+.odds-table{width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:14px;}
+.odds-table thead th{
+  text-align:left; text-transform:uppercase; font-size:11px; letter-spacing:0.08em;
+  color:var(--chalk-dim); padding:0 14px 12px; border-bottom:1px solid var(--line); font-weight:500;
+}
+.odds-table thead th.num{text-align:right;}
+.odds-table tbody tr{border-bottom:1px solid var(--line); transition:background .15s ease;}
+.odds-table tbody tr:hover{background:rgba(243,239,226,0.03);}
+.odds-table td{padding:16px 14px; vertical-align:middle;}
+.odds-table td.num{text-align:right;}
+.rank{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:26px; height:26px; border-radius:50%;
+  background:var(--turf); color:var(--chalk-dim); font-size:12px;
+}
+.rank.top{background:var(--gold); color:var(--ink); font-weight:700;}
+.team-name{color:var(--chalk); font-family:'Inter',sans-serif; font-weight:600; font-size:14.5px;}
+.team-owner{color:var(--chalk-dim); font-size:12px; display:block; margin-top:2px; font-family:'IBM Plex Mono',monospace;}
+.odds-pill{
+  display:inline-block; font-size:13px; padding:4px 10px; border-radius:20px; letter-spacing:0.02em;
+  font-weight:600;
+}
+.odds-pill.fav{background:rgba(184,115,51,0.18); color:var(--gold);}
+.odds-pill.dog{background:rgba(243,239,226,0.06); color:var(--chalk-dim);}
+
+@media (max-width:760px){
+  .navlinks{
+    position:fixed; top:57px; left:0; right:0; background:var(--turf-dark);
+    border-bottom:1px solid var(--line); flex-direction:column; padding:16px 24px; gap:16px;
+    display:none;
+  }
+  .navlinks.open{display:flex;}
+  .nav-toggle{display:block;}
+  .odds-table{font-size:12.5px;}
+  .odds-table td{padding:12px 8px;}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="yard-lines"></div>
+
+<header class="site">
+  <nav>
+    <a href="index.html" class="brand"><span class="dot"></span>THE LEAGUE</a>
+    <div class="navlinks" id="navlinks">
+      <a href="standings.html">Standings</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="managers.html">Managers</a>
+      <a href="recaps.html">Recaps</a>
+      <a href="rivalries.html">Rivalries</a>
+      <a href="index.html#history">Champions</a>
+      <a href="history.html">History</a>
+      <a href="odds.html" class="active">Odds</a>
+      <a href="draft.html">Draft</a>
+      <a href="rules.html">Rules</a>
+    </div>
+    <button class="nav-toggle" id="navToggle">MENU</button>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <a class="back-link" href="index.html">← Back to Home</a>
+  </div>
+
+  <section style="border-top:none; padding-top:0;">
+    <div class="section-head">
+      <div>
+        <div class="section-num">09 / ODDS</div>
+        <h2>2026 Futures</h2>
+      </div>
+      <p class="section-desc">Mock odds for the 12 managers entering 2026, built off career record, recent form, and playoff/championship history.</p>
+    </div>
+    <div class="disclaimer">
+      <strong>For entertainment only.</strong> These are made-up numbers for league fun, not real sportsbook lines — nobody's taking action on this.
+    </div>
+  </section>
+
+  <section id="playoff-odds" style="padding-top:0;">
+    <div class="section-head">
+      <div>
+        <div class="section-num">MARKET 1</div>
+        <h2>Make the Playoffs</h2>
+      </div>
+      <p class="section-desc">Top 6 of 12 make it in. American odds — negative numbers are favorites.</p>
+    </div>
+    <table class="odds-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Manager</th>
+          <th class="num">Odds</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank top">1</span></td>
+          <td><span class="team-name">Skyler Sills</span><span class="team-owner">Bo's dix · 27–16 career</span></td>
+          <td class="num"><span class="odds-pill fav">−260</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank top">2</span></td>
+          <td><span class="team-name">Nolan S</span><span class="team-owner">NoloRizzGang · 28–15 career</span></td>
+          <td class="num"><span class="odds-pill fav">−220</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">3</span></td>
+          <td><span class="team-name">Colin Schimcek</span><span class="team-owner">Schim Reaper · defending champ</span></td>
+          <td class="num"><span class="odds-pill fav">−180</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">4</span></td>
+          <td><span class="team-name">Hank Herrera</span><span class="team-owner">Hanky's Hitters · 24–19 career</span></td>
+          <td class="num"><span class="odds-pill fav">−140</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">5</span></td>
+          <td><span class="team-name">Jake Herrera</span><span class="team-owner">Tamina Snuka's Uces · 9–5 in 2025</span></td>
+          <td class="num"><span class="odds-pill fav">−120</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">6</span></td>
+          <td><span class="team-name">Haidon Sills</span><span class="team-owner">All of a Sutton · 8–6 in 2025</span></td>
+          <td class="num"><span class="odds-pill dog">+110</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">7</span></td>
+          <td><span class="team-name">Zachary Garza</span><span class="team-owner">Kraft YAC and Cheese · 14–15 career</span></td>
+          <td class="num"><span class="odds-pill dog">+140</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">8</span></td>
+          <td><span class="team-name">Camden Garcia</span><span class="team-owner">The Process · 18–25 career</span></td>
+          <td class="num"><span class="odds-pill dog">+160</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">9</span></td>
+          <td><span class="team-name">Cooper Guetzke</span><span class="team-owner">Team Guetzke · hasn't played since '23</span></td>
+          <td class="num"><span class="odds-pill dog">+170</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">10</span></td>
+          <td><span class="team-name">James Spitz</span><span class="team-owner">BackField Buffet · 13–16 career</span></td>
+          <td class="num"><span class="odds-pill dog">+220</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">11</span></td>
+          <td><span class="team-name">Max Aynesworth</span><span class="team-owner">Max's O-Line · 19–24 career</span></td>
+          <td class="num"><span class="odds-pill dog">+260</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">12</span></td>
+          <td><span class="team-name">Premethoy Patel</span><span class="team-owner">Officer Grim · 4–10 career</span></td>
+          <td class="num"><span class="odds-pill dog">+340</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="championship-odds">
+    <div class="section-head">
+      <div>
+        <div class="section-num">MARKET 2</div>
+        <h2>Win the Championship</h2>
+      </div>
+      <p class="section-desc">One winner out of 12. Longer odds across the board — it's a title, not a bye week.</p>
+    </div>
+    <table class="odds-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Manager</th>
+          <th class="num">Odds</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank top">1</span></td>
+          <td><span class="team-name">Skyler Sills</span><span class="team-owner">Bo's dix · 2024 champion</span></td>
+          <td class="num"><span class="odds-pill fav">+450</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank top">2</span></td>
+          <td><span class="team-name">Nolan S</span><span class="team-owner">NoloRizzGang · best career wins</span></td>
+          <td class="num"><span class="odds-pill fav">+550</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">3</span></td>
+          <td><span class="team-name">Colin Schimcek</span><span class="team-owner">Schim Reaper · 2025 champion</span></td>
+          <td class="num"><span class="odds-pill fav">+600</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">4</span></td>
+          <td><span class="team-name">Hank Herrera</span><span class="team-owner">Hanky's Hitters · scoring record holder</span></td>
+          <td class="num"><span class="odds-pill dog">+750</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">5</span></td>
+          <td><span class="team-name">Jake Herrera</span><span class="team-owner">Tamina Snuka's Uces</span></td>
+          <td class="num"><span class="odds-pill dog">+900</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">6</span></td>
+          <td><span class="team-name">Haidon Sills</span><span class="team-owner">All of a Sutton</span></td>
+          <td class="num"><span class="odds-pill dog">+1200</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">7</span></td>
+          <td><span class="team-name">Cooper Guetzke</span><span class="team-owner">Team Guetzke · 2023 champion</span></td>
+          <td class="num"><span class="odds-pill dog">+1400</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">8</span></td>
+          <td><span class="team-name">Zachary Garza</span><span class="team-owner">Kraft YAC and Cheese</span></td>
+          <td class="num"><span class="odds-pill dog">+1600</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">9</span></td>
+          <td><span class="team-name">Camden Garcia</span><span class="team-owner">The Process</span></td>
+          <td class="num"><span class="odds-pill dog">+1800</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">10</span></td>
+          <td><span class="team-name">James Spitz</span><span class="team-owner">BackField Buffet</span></td>
+          <td class="num"><span class="odds-pill dog">+2200</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">11</span></td>
+          <td><span class="team-name">Max Aynesworth</span><span class="team-owner">Max's O-Line</span></td>
+          <td class="num"><span class="odds-pill dog">+2800</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">12</span></td>
+          <td><span class="team-name">Premethoy Patel</span><span class="team-owner">Officer Grim</span></td>
+          <td class="num"><span class="odds-pill dog">+4000</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<footer>
+  THE LEAGUE · <span class="gold">12 TEAMS, 1 TROPHY</span> · <a href="index.html">Back to Home</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var navToggle = document.getElementById('navToggle');
+  var navlinks = document.getElementById('navlinks');
+  if (navToggle && navlinks) {
+    navToggle.addEventListener('click', function () {
+      navlinks.classList.toggle('open');
+    });
+  }
+});
+</script>
+</body>
+</html>
