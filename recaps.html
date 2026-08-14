@@ -199,7 +199,7 @@ h2{
   background:var(--ink); border-radius:50%; width:38px; height:38px;
   display:flex; align-items:center; justify-content:center;
 }
-.hidden{display:none;}
+.hidden{display:none !important;}
 
 /* DRAFT RESULTS */
 .draft-grid{
@@ -319,6 +319,20 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
 .recap-blurb{font-size:13px; color:var(--chalk-dim);}
 .recap-date{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--chalk-dim); white-space:nowrap;}
 
+.season-recap-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px;}
+.season-recap-card{
+  background:var(--turf); border:1px solid var(--line); border-radius:6px; padding:22px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.season-recap-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+.season-recap-team{font-family:'Anton',sans-serif; font-size:18px; text-transform:uppercase;}
+.season-recap-owner{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--chalk-dim); display:block; margin-top:2px;}
+.season-recap-record{
+  font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--gold);
+  background:rgba(184,115,51,0.18); padding:3px 9px; border-radius:20px; white-space:nowrap;
+}
+.season-recap-text{font-size:13.5px; color:var(--chalk-dim); line-height:1.6;}
+
 /* RIVALRIES */
 .rivalry-grid{display:grid; gap:14px;}
 .rivalry-card{
@@ -405,30 +419,247 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
     <div class="section-head">
       <div>
         <div class="section-num">05 / RECAPS</div>
-        <h2>Weekly Reports</h2>
+        <h2>Season Recaps</h2>
       </div>
-      <p class="section-desc">The commissioner's writeup, every week, whether you want it or not.</p>
+      <p class="section-desc">Team by team, season by season — built from box scores and each year's final finish.</p>
     </div>
-    <div class="recap-list">
-      <div class="recap-item">
-        <div class="recap-week">WK 07</div>
-        <div><div class="recap-title">Gremlins survive a scare from the Squad</div><div class="recap-blurb">A 3-point nail-biter, a kicker meltdown, and one very bad bench decision.</div></div>
-        <div class="recap-date">Oct 20, 2026</div>
+
+    <div class="week-tabs" id="recapYearTabs">
+      <button class="week-tab active" data-recap-year="2025">2025</button>
+      <button class="week-tab" data-recap-year="2024">2024</button>
+      <button class="week-tab" data-recap-year="2023">2023</button>
+    </div>
+
+    <div class="season-recap-grid hidden" data-recap-panel="2023">
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Team Guetzke</span><span class="season-recap-owner">Cooper Guetzke</span></div>
+          <span class="season-recap-record">10–4 · 1st</span>
+        </div>
+        <p class="season-recap-text">Cooper Guetzke stormed to a 9–1 start before the wheels nearly came off — a four-game losing streak in Weeks 10–13 briefly threatened the top seed. A Week 14 win over Hanky's Hitters steadied the ship at 10–4 and the 1-seed, and Team Guetzke made it count in the postseason, running the table through all three playoff rounds — including a coin-flip championship over Hanky's Hitters — for the franchise's first title.</p>
       </div>
-      <div class="recap-item">
-        <div class="recap-week">WK 06</div>
-        <div><div class="recap-title">Blitz Kids drop 134 in a laugher</div><div class="recap-blurb">The Waiver Wire Warriors never had a chance. Three players topped 20 points.</div></div>
-        <div class="recap-date">Oct 13, 2026</div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Hanky's Hitters</span><span class="season-recap-owner">Hank Herrera</span></div>
+          <span class="season-recap-record">9–5 · 2nd</span>
+        </div>
+        <p class="season-recap-text">Hank Herrera's squad won three of its first four games, weathered a mid-season rough patch, and reeled off wins in Weeks 11–12 to reach 9–3. Back-to-back late losses to Deshaun Don't Touchdown There and Team Guetzke dropped the finish to 9–5, but Hanky's Hitters carried the 2-seed all the way to the championship, coming up just short in a literal tie against Team Guetzke.</p>
       </div>
-      <div class="recap-item">
-        <div class="recap-week">WK 05</div>
-        <div><div class="recap-title">Bye week chaos reshuffles the middle of the table</div><div class="recap-blurb">Six teams within one game of each other heading into Week 6.</div></div>
-        <div class="recap-date">Oct 6, 2026</div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Skyler football team</span><span class="season-recap-owner">Skyler Sills</span></div>
+          <span class="season-recap-record">8–6 · 3rd</span>
+        </div>
+        <p class="season-recap-text">Skyler Sills started 0–2, ripped off five wins in six weeks to reach 6–4, then hit a two-game skid in Weeks 11–12. A pair of Week 13–14 wins closed the year at 8–6 and the 3-seed, setting up a playoff run that ended in a Round 2 loss to Hanky's Hitters.</p>
       </div>
-      <div class="recap-item">
-        <div class="recap-week">WK 04</div>
-        <div><div class="recap-title">The Rebels' comeback for the ages</div><div class="recap-blurb">Down 40 at halftime of the scoring window, Ash's Monday night flex saved the week.</div></div>
-        <div class="recap-date">Sep 29, 2026</div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Sticky fingers</span><span class="season-recap-owner">Lance Williams</span></div>
+          <span class="season-recap-record">8–6 · 4th</span>
+        </div>
+        <p class="season-recap-text">Sticky fingers bounced between hot and cold most of the year, including a 0.50-point nail-biter win over Hanky's Hitters in Week 7. A Week 11 loss to Team Garcia was followed by back-to-back wins to reach 8–5, before a Week 14 blowout loss to team big time closed the regular season at 8–6. The playoff run ended one win short of the championship, falling to Team Guetzke in Round 2.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Deshaun Don't Touchdown There</span><span class="season-recap-owner">Grayson Klanika</span></div>
+          <span class="season-recap-record">7–7 · 5th</span>
+        </div>
+        <p class="season-recap-text">Grayson Klanika's team looked like a contender early, dropping a league-high 166.52 points in a Week 3 win, then survived a five-week cold stretch through the middle of the season. A three-game winning streak in Weeks 11–13 — including a win over Hanky's Hitters — pulled the season back to .500 before a Week 14 loss to Team Garcia settled it at 7–7 and the 5-seed. The playoff run ended in Round 1 against Sticky fingers.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">team big time</span><span class="season-recap-owner">Nolan S</span></div>
+          <span class="season-recap-record">7–7 · 6th</span>
+        </div>
+        <p class="season-recap-text">Nolan S opened the season 0–3 and sat 4–7 after Week 11, but closed the year on a three-game winning streak — including a 110.42–43.4 rout of Ceedeez Nuts in Week 13 — to finish 7–7 and sneak into the final playoff spot as the 6-seed. The run ended in Round 1 against Skyler football team.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Jay's Black Guys</span><span class="season-recap-owner">Jake Herrera</span></div>
+          <span class="season-recap-record">6–8 · 7th</span>
+        </div>
+        <p class="season-recap-text">Jake Herrera's squad had its moments, including a Week 11 upset of Team Guetzke, and pushed its record to 6–6 by Week 12. A pair of close late losses — 124.86–128.74 to Sticky fingers and 119.14–121.14 to Skyler football team — closed the year at 6–8, outside the playoff field.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Above and bijaned</span><span class="season-recap-owner">Max Aynesworth</span></div>
+          <span class="season-recap-record">6–8 · 8th</span>
+        </div>
+        <p class="season-recap-text">Max Aynesworth's team was defined by inconsistency all year, never stringing together more than two wins at a time. A pair of Week 13–14 wins — including one over eventual champion Team Guetzke — closed the season at 6–8, just outside the playoff field.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Ceedeez Nuts</span><span class="season-recap-owner">Connor Jones</span></div>
+          <span class="season-recap-record">5–9 · 9th</span>
+        </div>
+        <p class="season-recap-text">Connor Jones' team never found much consistency, and a season-high 159.92 points in a Week 11 win over Skyler football team was quickly forgotten after a three-game losing streak to close the year, including a season-low 43.4 points in Week 13. The 5–9 finish left Ceedeez Nuts outside the playoff picture.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Team Garcia</span><span class="season-recap-owner">Camden Garcia</span></div>
+          <span class="season-recap-record">4–10 · 10th</span>
+        </div>
+        <p class="season-recap-text">It was a rough season from the jump for Camden Garcia — Team Garcia dropped four straight to open the year and spent most of the season near the bottom of the standings. A Week 14 win over Deshaun Don't Touchdown There was one of only four wins all year, closing the campaign at 4–10 and outside the playoffs.</p>
+      </div>
+    </div>
+
+    <div class="season-recap-grid hidden" data-recap-panel="2024">
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Skybreeze</span><span class="season-recap-owner">Skyler Sills</span></div>
+          <span class="season-recap-record">9–6 · 4th (reg. season), Champion</span>
+        </div>
+        <p class="season-recap-text">Skyler Sills opened 4–0 and looked like the class of the league before a two-game skid in Weeks 5–6. Skybreeze bounced back to reach 9–6 despite a rough patch in Weeks 11–12, closing the regular season on a Week 15 win. The playoffs were a different story entirely — Skybreeze blitzed through all three rounds, capped by a runaway 134.02–78.84 win in the championship, for the franchise's first title.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Plissken</span><span class="season-recap-owner">James Spitz</span></div>
+          <span class="season-recap-record">8–7 · 6th (reg. season), Runner-up</span>
+        </div>
+        <p class="season-recap-text">James Spitz dropped a big Week 1 win, then hit the skids hard — six losses in the next seven weeks. But Plissken caught fire late, winning six of the last seven regular-season games, including a 190.38-point outburst in Week 14 (the second-most combined points ever recorded, at 335.14). A brutal Week 15 finish — 34.80 points, an all-time league low, in a 91.4-point blowout loss — was forgotten fast, as Plissken carried the momentum through the playoffs all the way to the championship before falling to Skybreeze.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">team big time</span><span class="season-recap-owner">Nolan S</span></div>
+          <span class="season-recap-record">11–4 · 1st (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Nolan S opened 0–1 but ripped off six wins in the next seven weeks, including a 0.16-point nail-biter over Hanky's Hitters in Week 7 — still the closest game on record. team big time kept rolling down the stretch, winning 6 of the final 7 games and closing Week 15 with a 126.2–34.8 rout of Plissken, the biggest blowout in league history. The 11–4 finish was the league's best record, but the playoff run ended in Round 2 against the eventual champion, Skybreeze.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Hanky's Hitters</span><span class="season-recap-owner">Hank Herrera</span></div>
+          <span class="season-recap-record">9–6 · 2nd (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Hank Herrera started 3–0, including a Week 2 explosion of 180.44 points, then cooled off — three losses in the middle stretch, then a strong Weeks 11–13 run (three straight wins, including a third-straight win over Jake Herrera in their ongoing rivalry) put Hanky's Hitters at 9–6. A two-game losing skid to close the season kept the finish at 9–6 and a playoff berth, but the run ended in Round 2 against Plissken.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Max's minoritys</span><span class="season-recap-owner">Max Aynesworth</span></div>
+          <span class="season-recap-record">9–6 · 3rd (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Max Aynesworth started 0–2 before catching fire, winning five of the next six. A rough Weeks 11–12 skid (including a loss to James Spitz in their ongoing rivalry) briefly stalled the momentum, but three straight wins to close the season — including a 165.58-point outburst in Week 13 — sealed a 9–6 finish and a playoff spot, though the run ended in Round 1.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Albequerque ass blasters</span><span class="season-recap-owner">Zachary Garza</span></div>
+          <span class="season-recap-record">8–7 · 5th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Zachary Garza built momentum with a four-game winning streak in Weeks 3–6, and a Weeks 11–12 heater pushed the record to a season-high mark. But the wheels came off down the stretch — three straight losses to close the year settled the finish at 8–7, good for a playoff spot but a first-round exit against Skybreeze.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">The Process</span><span class="season-recap-owner">Camden Garcia</span></div>
+          <span class="season-recap-record">6–9 · 7th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Camden Garcia's team hovered right around .500 for most of the season, with a Week 9 explosion of 159.02 points among the highlights. A four-game losing streak in Weeks 11–14 buried any playoff hopes, though a Week 15 win closed things out on a high note. The Process finished 6–9, missing the postseason.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Jay's Black Guys</span><span class="season-recap-owner">Jake Herrera</span></div>
+          <span class="season-recap-record">5–10 · 8th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Jake Herrera's squad never found any rhythm, alternating wins and losses for most of the season and dropping all three meetings with Hank Herrera along the way. A five-game losing streak to close the season sealed a 5–10 finish, leaving Jay's Black Guys outside the playoff field for the second straight year.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Jaren hall is my goat</span><span class="season-recap-owner">John Williams</span></div>
+          <span class="season-recap-record">5–10 · 9th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">John Williams' team struggled out of the gate, dropping five of its first six games and sitting near the bottom of the league for most of the year. But the season ended on an all-time note — a Week 15 explosion of 198.26 points, the highest single-game score in league history, capped a 5–10 finish that was still well outside the playoff picture.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">winners</span><span class="season-recap-owner">cash herrera</span></div>
+          <span class="season-recap-record">5–10 · 10th (reg. season), Wall of Shame</span>
+        </div>
+        <p class="season-recap-text">cash herrera's team lost its first five games of the season and never fully recovered, though a couple of wins down the stretch (Weeks 13–14) kept things from getting worse. The 5–10 finish put winners last in the regular season standings — a rough follow-up to being one of the league's newer teams.</p>
+      </div>
+    </div>
+
+    <div class="season-recap-grid" data-recap-panel="2025">
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">NoloRizzGang</span><span class="season-recap-owner">Nolan S</span></div>
+          <span class="season-recap-record">10–4 · 1st (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Nolan S dropped Week 1 to Colin Schimcek, then won six straight to take command of the league. A late two-game skid in Weeks 8–9 was the only real hiccup, and a Week 12 loss to Schim Reaper was the only blemish down the stretch — NoloRizzGang closed with back-to-back wins to finish 10–4 and the top seed. The playoff run ended in the championship, falling to Schim Reaper for the second time this season.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Bo's dix</span><span class="season-recap-owner">Skyler Sills</span></div>
+          <span class="season-recap-record">10–4 · 2nd (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Skyler Sills bounced between hot and cold for the first six weeks, never stringing together more than two wins at a time. From Week 6 on, though, Bo's dix caught fire — winning eight of the final nine, including a 148.3–88.7 rout of Haidon Sills in Week 10 (their first-ever meeting) — to finish 10–4 and the 2-seed. The playoff run ended in Round 2 against Schim Reaper.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Schim Reaper</span><span class="season-recap-owner">Colin Schimcek</span></div>
+          <span class="season-recap-record">10–4 · 3rd (reg. season), Champion</span>
+        </div>
+        <p class="season-recap-text">Colin Schimcek's debut season was a statement from the jump — an 8–2 start through Week 10 included a 194.1-point explosion in Week 9 (a 111.1-point blowout over Camden Garcia, the largest margin of victory in league history) and a 0.06-point nail-biter over John Williams in Week 8, the closest game on record. A two-game slide to close the regular season barely dented the résumé; Schim Reaper still finished 10–4 and the 3-seed, then ran through the playoffs — including a rematch win over NoloRizzGang — for the title, a champion in his first year in the league.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Tamina Snuka's Uces</span><span class="season-recap-owner">Jake Herrera</span></div>
+          <span class="season-recap-record">9–5 · 4th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Jake Herrera opened with a statement win over Hank Herrera in their ongoing family rivalry, built to 6–4 through Week 10, then closed with three straight wins — including a Week 12 rematch win over Hank — to finish 9–5 and the 4-seed. The season carried into the playoffs before a Round 2 exit against NoloRizzGang.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">All of a Sutton</span><span class="season-recap-owner">Haidon Sills</span></div>
+          <span class="season-recap-record">8–6 · 5th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Haidon Sills' debut season was defined by inconsistency, alternating wins and losses through most of the first ten weeks to sit 5–5. A Week 10 loss to Skyler Sills — a fellow Sills, in their first-ever meeting — was followed by a strong close, winning three of the final four to finish 8–6 and the 5-seed in year one, before a Round 1 playoff exit against Jake Herrera.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">The Process</span><span class="season-recap-owner">Camden Garcia</span></div>
+          <span class="season-recap-record">8–6 · 6th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Camden Garcia opened 1–4, including the Week 9 blowout loss to Colin Schimcek that still stands as the league's biggest ever. A three-game winning streak in Weeks 6–8 rescued the season, and The Process kept rolling into Weeks 11–13 to reach 8–5 before a Week 14 loss closed the regular season at 8–6 and the 6-seed. The playoff run ended in Round 1 against Schim Reaper.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Hanky's Hitters</span><span class="season-recap-owner">Hank Herrera</span></div>
+          <span class="season-recap-record">6–8 · 7th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Hank Herrera dropped his first two, including a loss to Jake Herrera that snapped a perfect head-to-head record in their rivalry. A four-game winning streak in Weeks 3–6 — including the league's lowest-combined-points game on record, 94.04–47.72 over John Williams — pulled Hanky's Hitters back to 5–5, but the season faded from there to a 6–8 finish outside the playoffs.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Kraft YAC and Cheese</span><span class="season-recap-owner">Zachary Garza</span></div>
+          <span class="season-recap-record">6–8 · 8th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Zachary Garza's team never found any rhythm, alternating wins and losses for most of the first ten weeks to sit 4–6. A 6–8 finish left Kraft YAC and Cheese outside the playoff field.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">BackField Buffet</span><span class="season-recap-owner">James Spitz</span></div>
+          <span class="season-recap-record">5–9 · 9th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">James Spitz opened 0–1 against Max Aynesworth in their up-and-down rivalry, then struggled to find any consistency — a five-game losing streak in Weeks 3–6 buried the season early. A late push in Weeks 7–8 wasn't enough, and BackField Buffet finished 5–9, missing the playoffs.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Max's O-Line</span><span class="season-recap-owner">Max Aynesworth</span></div>
+          <span class="season-recap-record">4–10 · 10th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Max Aynesworth opened with a win over James Spitz to even their all-time series, but couldn't build on it — three losses in the next four weeks buried the season early. The 4–10 finish left Max's O-Line well outside the playoff picture.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Officer Grim</span><span class="season-recap-owner">Premethoy Patel</span></div>
+          <span class="season-recap-record">4–10 · 11th (reg. season)</span>
+        </div>
+        <p class="season-recap-text">Premethoy Patel's team was competitive early — back-to-back wins in Weeks 2–3 pushed the record to 2–1 — but the season unraveled from there, with a Week 10 loss to Camden Garcia (their first-ever meeting) closing out a 4–10 finish outside the playoffs.</p>
+      </div>
+      <div class="season-recap-card">
+        <div class="season-recap-head">
+          <div><span class="season-recap-team">Jaren hall is my goat</span><span class="season-recap-owner">John Williams</span></div>
+          <span class="season-recap-record">4–10 · 12th (reg. season), Wall of Shame</span>
+        </div>
+        <p class="season-recap-text">John Williams' team was involved in two of the season's defining games — a 0.06-point loss to Colin Schimcek in Week 8, the closest game in league history, and a 47.72-point performance in Week 6, part of the lowest-combined-points game on record. Neither turned into results, and the 4–10 finish put Jaren hall is my goat last in the regular season standings. The Hot Wing Challenge punishment went uncompleted, costing John Williams his spot in the league for 2026.</p>
       </div>
     </div>
   </section>
@@ -459,6 +690,20 @@ document.addEventListener('DOMContentLoaded', function () {
       var wk = tab.getAttribute('data-week');
       panels.forEach(function (p) {
         p.classList.toggle('hidden', p.getAttribute('data-week-panel') !== wk);
+      });
+    });
+  });
+
+  // recaps year tabs
+  var recapTabs = document.querySelectorAll('#recapYearTabs .week-tab');
+  var recapPanels = document.querySelectorAll('[data-recap-panel]');
+  recapTabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      recapTabs.forEach(function (t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      var yr = tab.getAttribute('data-recap-year');
+      recapPanels.forEach(function (p) {
+        p.classList.toggle('hidden', p.getAttribute('data-recap-panel') !== yr);
       });
     });
   });

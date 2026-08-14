@@ -177,6 +177,29 @@ h2{
 .streak.w{background:rgba(184,115,51,0.18); color:var(--gold);}
 .streak.l{background:rgba(193,68,43,0.18); color:#E88168;}
 
+/* HEAD-TO-HEAD MATRIX */
+.h2h-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:6px;}
+.h2h-matrix{border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:12px; white-space:nowrap;}
+.h2h-matrix th, .h2h-matrix td{
+  padding:9px 10px; text-align:center; border-bottom:1px solid var(--line); border-right:1px solid var(--line);
+}
+.h2h-matrix thead th{
+  background:var(--ink); color:var(--gold); font-weight:600; letter-spacing:0.04em;
+  position:sticky; top:0;
+}
+.h2h-matrix thead th:first-child{left:0; z-index:3;}
+.h2h-matrix tbody th{
+  background:var(--ink); color:var(--chalk); font-weight:600; text-align:left; font-family:'Inter',sans-serif;
+  position:sticky; left:0; z-index:2; padding-right:16px;
+}
+.h2h-matrix td{color:var(--chalk-dim);}
+.h2h-matrix td.diag{color:var(--chalk-dim); opacity:0.35;}
+.h2h-matrix td.win{color:var(--gold); font-weight:600;}
+.h2h-matrix td.loss{color:var(--chalk-dim);}
+.h2h-matrix td.tie{color:var(--chalk);}
+.h2h-matrix tbody tr:last-child td, .h2h-matrix tbody tr:last-child th{border-bottom:none;}
+.h2h-matrix th:last-child, .h2h-matrix td:last-child{border-right:none;}
+
 /* SCHEDULE */
 .week-tabs{display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap;}
 .week-tab{
@@ -407,10 +430,16 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
         <div class="section-num">01 / STANDINGS</div>
         <h2>League Table</h2>
       </div>
-      <p class="section-desc">2025 final standings — regular season record with playoff results applied. Top 6 made the playoffs.</p>
+      <p class="section-desc">Regular season standings by year, seeded 1–12 (or 1–10) heading into the playoffs.</p>
     </div>
 
-    <table class="standings">
+    <div class="week-tabs" id="yearTabs">
+      <button class="week-tab active" data-year="2025">2025</button>
+      <button class="week-tab" data-year="2024">2024</button>
+      <button class="week-tab" data-year="2023">2023</button>
+    </div>
+
+    <table class="standings" data-year-panel="2025">
       <thead>
         <tr>
           <th>Rank</th>
@@ -424,14 +453,6 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
       <tbody>
         <tr>
           <td><span class="rank top">1</span></td>
-          <td><span class="team-name">Schim Reaper</span><span class="team-owner">Colin Schimcek</span></td>
-          <td class="num">10–4</td>
-          <td class="num">1690.74</td>
-          <td class="num">1445.82</td>
-          <td><span class="streak w">+17.5</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank top">2</span></td>
           <td><span class="team-name">NoloRizzGang</span><span class="team-owner">Nolan S</span></td>
           <td class="num">10–4</td>
           <td class="num">1766.16</td>
@@ -439,20 +460,28 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
           <td><span class="streak w">+12.2</span></td>
         </tr>
         <tr>
-          <td><span class="rank">3</span></td>
-          <td><span class="team-name">Tamina Snuka's Uces</span><span class="team-owner">Jake Herrera</span></td>
-          <td class="num">9–5</td>
-          <td class="num">1680.88</td>
-          <td class="num">1637.58</td>
-          <td><span class="streak w">+3.1</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank">4</span></td>
+          <td><span class="rank top">2</span></td>
           <td><span class="team-name">Bo's dix</span><span class="team-owner">Skyler Sills</span></td>
           <td class="num">10–4</td>
           <td class="num">1758.18</td>
           <td class="num">1539.52</td>
           <td><span class="streak w">+15.6</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">3</span></td>
+          <td><span class="team-name">Schim Reaper</span><span class="team-owner">Colin Schimcek</span></td>
+          <td class="num">10–4</td>
+          <td class="num">1690.74</td>
+          <td class="num">1445.82</td>
+          <td><span class="streak w">+17.5</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">4</span></td>
+          <td><span class="team-name">Tamina Snuka's Uces</span><span class="team-owner">Jake Herrera</span></td>
+          <td class="num">9–5</td>
+          <td class="num">1680.88</td>
+          <td class="num">1637.58</td>
+          <td><span class="streak w">+3.1</span></td>
         </tr>
         <tr>
           <td><span class="rank">5</span></td>
@@ -472,14 +501,6 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
         </tr>
         <tr>
           <td><span class="rank">7</span></td>
-          <td><span class="team-name">Kraft YAC and Cheese</span><span class="team-owner">Zachary Garza</span></td>
-          <td class="num">6–8</td>
-          <td class="num">1537.64</td>
-          <td class="num">1695.04</td>
-          <td><span class="streak l">−11.2</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank">8</span></td>
           <td><span class="team-name">Hanky's Hitters</span><span class="team-owner">Hank Herrera</span></td>
           <td class="num">6–8</td>
           <td class="num">1646.22</td>
@@ -487,20 +508,28 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
           <td><span class="streak w">+3.8</span></td>
         </tr>
         <tr>
-          <td><span class="rank">9</span></td>
-          <td><span class="team-name">Max's O-Line</span><span class="team-owner">Max Aynesworth</span></td>
-          <td class="num">4–10</td>
-          <td class="num">1590.84</td>
-          <td class="num">1713.60</td>
-          <td><span class="streak l">−8.8</span></td>
+          <td><span class="rank">8</span></td>
+          <td><span class="team-name">Kraft YAC and Cheese</span><span class="team-owner">Zachary Garza</span></td>
+          <td class="num">6–8</td>
+          <td class="num">1537.64</td>
+          <td class="num">1695.04</td>
+          <td><span class="streak l">−11.2</span></td>
         </tr>
         <tr>
-          <td><span class="rank">10</span></td>
+          <td><span class="rank">9</span></td>
           <td><span class="team-name">BackField Buffet</span><span class="team-owner">James Spitz</span></td>
           <td class="num">5–9</td>
           <td class="num">1545.08</td>
           <td class="num">1662.14</td>
           <td><span class="streak l">−8.4</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">10</span></td>
+          <td><span class="team-name">Max's O-Line</span><span class="team-owner">Max Aynesworth</span></td>
+          <td class="num">4–10</td>
+          <td class="num">1590.84</td>
+          <td class="num">1713.60</td>
+          <td><span class="streak l">−8.8</span></td>
         </tr>
         <tr>
           <td><span class="rank">11</span></td>
@@ -520,6 +549,231 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
         </tr>
       </tbody>
     </table>
+
+    <table class="standings hidden" data-year-panel="2024">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team</th>
+          <th class="num">Rec</th>
+          <th class="num">PF</th>
+          <th class="num">PA</th>
+          <th>Diff</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank top">1</span></td>
+          <td><span class="team-name">team big time</span><span class="team-owner">Nolan S</span></td>
+          <td class="num">11–4</td>
+          <td class="num">1878.44</td>
+          <td class="num">1722.64</td>
+          <td><span class="streak w">+10.4</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank top">2</span></td>
+          <td><span class="team-name">Hanky's Hitters</span><span class="team-owner">Hank Herrera</span></td>
+          <td class="num">9–6</td>
+          <td class="num">1981.10</td>
+          <td class="num">1917.74</td>
+          <td><span class="streak w">+4.2</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">3</span></td>
+          <td><span class="team-name">Max's minoritys</span><span class="team-owner">Max Aynesworth</span></td>
+          <td class="num">9–6</td>
+          <td class="num">1923.66</td>
+          <td class="num">1844.18</td>
+          <td><span class="streak w">+5.3</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">4</span></td>
+          <td><span class="team-name">Skybreeze</span><span class="team-owner">Skyler Sills</span></td>
+          <td class="num">9–6</td>
+          <td class="num">1919.56</td>
+          <td class="num">1801.00</td>
+          <td><span class="streak w">+7.9</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">5</span></td>
+          <td><span class="team-name">Albequerque ass blasters</span><span class="team-owner">Zachary Garza</span></td>
+          <td class="num">8–7</td>
+          <td class="num">1820.66</td>
+          <td class="num">1811.82</td>
+          <td><span class="streak w">+0.6</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">6</span></td>
+          <td><span class="team-name">Plissken</span><span class="team-owner">James Spitz</span></td>
+          <td class="num">8–7</td>
+          <td class="num">1770.90</td>
+          <td class="num">1751.76</td>
+          <td><span class="streak w">+1.3</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">7</span></td>
+          <td><span class="team-name">The Process</span><span class="team-owner">Camden Garcia</span></td>
+          <td class="num">6–9</td>
+          <td class="num">1698.00</td>
+          <td class="num">1798.56</td>
+          <td><span class="streak l">−6.7</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">8</span></td>
+          <td><span class="team-name">Jay's Black Guys</span><span class="team-owner">Jake Herrera</span></td>
+          <td class="num">5–10</td>
+          <td class="num">1794.26</td>
+          <td class="num">1895.98</td>
+          <td><span class="streak l">−6.8</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">9</span></td>
+          <td><span class="team-name">Jaren hall is my goat</span><span class="team-owner">John Williams</span></td>
+          <td class="num">5–10</td>
+          <td class="num">1761.62</td>
+          <td class="num">1781.26</td>
+          <td><span class="streak l">−1.3</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">10</span></td>
+          <td><span class="team-name">winners</span><span class="team-owner">cash herrera</span></td>
+          <td class="num">5–10</td>
+          <td class="num">1648.54</td>
+          <td class="num">1871.80</td>
+          <td><span class="streak l">−14.9</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="standings hidden" data-year-panel="2023">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team</th>
+          <th class="num">Rec</th>
+          <th class="num">PF</th>
+          <th class="num">PA</th>
+          <th>Diff</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank top">1</span></td>
+          <td><span class="team-name">Team Guetzke</span><span class="team-owner">Cooper Guetzke</span></td>
+          <td class="num">10–4</td>
+          <td class="num">1731.70</td>
+          <td class="num">1540.80</td>
+          <td><span class="streak w">+13.6</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank top">2</span></td>
+          <td><span class="team-name">Hanky's Hitters</span><span class="team-owner">Hank Herrera</span></td>
+          <td class="num">9–5</td>
+          <td class="num">1906.54</td>
+          <td class="num">1718.02</td>
+          <td><span class="streak w">+13.5</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">3</span></td>
+          <td><span class="team-name">Skyler football team</span><span class="team-owner">Skyler Sills</span></td>
+          <td class="num">8–6</td>
+          <td class="num">1729.96</td>
+          <td class="num">1693.82</td>
+          <td><span class="streak w">+2.6</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">4</span></td>
+          <td><span class="team-name">Sticky fingers</span><span class="team-owner">Lance Williams</span></td>
+          <td class="num">8–6</td>
+          <td class="num">1631.10</td>
+          <td class="num">1716.66</td>
+          <td><span class="streak l">−6.1</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">5</span></td>
+          <td><span class="team-name">Deshaun Don't Touchdown There</span><span class="team-owner">Grayson Klanika</span></td>
+          <td class="num">7–7</td>
+          <td class="num">1721.66</td>
+          <td class="num">1707.86</td>
+          <td><span class="streak w">+1.0</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">6</span></td>
+          <td><span class="team-name">team big time</span><span class="team-owner">Nolan S</span></td>
+          <td class="num">7–7</td>
+          <td class="num">1680.60</td>
+          <td class="num">1672.06</td>
+          <td><span class="streak w">+0.6</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">7</span></td>
+          <td><span class="team-name">Jay's Black Guys</span><span class="team-owner">Jake Herrera</span></td>
+          <td class="num">6–8</td>
+          <td class="num">1609.86</td>
+          <td class="num">1580.50</td>
+          <td><span class="streak w">+2.1</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">8</span></td>
+          <td><span class="team-name">Above and bijaned</span><span class="team-owner">Max Aynesworth</span></td>
+          <td class="num">6–8</td>
+          <td class="num">1584.04</td>
+          <td class="num">1738.90</td>
+          <td><span class="streak l">−11.1</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">9</span></td>
+          <td><span class="team-name">Ceedeez Nuts</span><span class="team-owner">Connor Jones</span></td>
+          <td class="num">5–9</td>
+          <td class="num">1543.90</td>
+          <td class="num">1697.24</td>
+          <td><span class="streak l">−11.0</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank">10</span></td>
+          <td><span class="team-name">Team Garcia</span><span class="team-owner">Camden Garcia</span></td>
+          <td class="num">4–10</td>
+          <td class="num">1594.54</td>
+          <td class="num">1668.04</td>
+          <td><span class="streak l">−5.3</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="h2h">
+    <div class="section-head">
+      <div>
+        <div class="section-num">ALL-TIME</div>
+        <h2>Head-to-Head</h2>
+      </div>
+      <p class="section-desc">Every manager against every other, built from the complete 2023, 2024, and 2025 seasons plus every playoff game on record. Read each cell as the row manager's record vs. the column manager. "·" means no meetings yet.</p>
+    </div>
+    <div class="h2h-scroll">
+    <table class="h2h-matrix">
+      <thead>
+        <tr><th></th><th title="Colin Schimcek">CS</th><th title="Nolan S">NS</th><th title="Jake Herrera">JH</th><th title="Skyler Sills">SS</th><th title="Haidon Sills">HS</th><th title="Camden Garcia">CAM</th><th title="Zachary Garza">ZG</th><th title="Hank Herrera">HH</th><th title="Max Aynesworth">MA</th><th title="James Spitz">JS</th><th title="Premethoy Patel">PP</th><th title="Cooper Guetzke">CG</th><th title="Lance Williams">JW</th><th title="cash herrera">CH</th><th title="Connor Jones">CJ</th><th title="Grayson Klanika">GK</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Colin Schimcek</th><td class="diag">–</td><td class="win">3-0</td><td class="loss">0-2</td><td class="tie">1-1</td><td class="tie">1-1</td><td class="win">2-0</td><td class="win">1-0</td><td class="win">1-0</td><td class="win">1-0</td><td class="win">1-0</td><td class="win">1-0</td><td>·</td><td class="win">1-0</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><th>Nolan S</th><td class="loss">0-3</td><td class="diag">–</td><td class="win">5-0</td><td class="loss">1-4</td><td class="win">1-0</td><td class="win">4-0</td><td class="loss">1-2</td><td class="tie">2-2</td><td class="win">3-2</td><td class="win">4-0</td><td class="win">1-0</td><td class="tie">1-1</td><td class="win">3-2</td><td class="loss">0-1</td><td class="win">2-0</td><td class="loss">0-2</td></tr>
+        <tr><th>Jake Herrera</th><td class="win">2-0</td><td class="loss">0-5</td><td class="diag">–</td><td class="loss">1-4</td><td class="win">2-0</td><td class="loss">1-3</td><td class="loss">0-2</td><td class="loss">2-3</td><td class="win">3-1</td><td class="win">2-1</td><td class="win">1-0</td><td class="tie">1-1</td><td class="loss">2-3</td><td class="loss">0-1</td><td class="win">2-0</td><td class="win">2-0</td></tr>
+        <tr><th>Skyler Sills</th><td class="tie">1-1</td><td class="win">4-1</td><td class="win">4-1</td><td class="diag">–</td><td class="win">1-0</td><td class="win">6-0</td><td class="win">3-2</td><td class="loss">1-3</td><td class="tie">2-2</td><td class="win">2-1</td><td class="win">2-0</td><td class="tie">1-1</td><td class="loss">2-3</td><td class="win">2-0</td><td class="loss">0-2</td><td class="loss">0-1</td></tr>
+        <tr><th>Haidon Sills</th><td class="tie">1-1</td><td class="loss">0-1</td><td class="loss">0-2</td><td class="loss">0-1</td><td class="diag">–</td><td class="loss">0-1</td><td class="win">1-0</td><td class="loss">0-1</td><td class="win">2-0</td><td class="win">1-0</td><td class="win">1-0</td><td>·</td><td class="win">2-0</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><th>Camden Garcia</th><td class="loss">0-2</td><td class="loss">0-4</td><td class="win">3-1</td><td class="loss">0-6</td><td class="win">1-0</td><td class="diag">–</td><td class="win">3-1</td><td class="loss">0-4</td><td class="tie">2-2</td><td class="tie">2-2</td><td class="win">1-0</td><td class="loss">0-1</td><td class="tie">2-2</td><td class="tie">1-1</td><td class="win">1-0</td><td class="win">2-0</td></tr>
+        <tr><th>Zachary Garza</th><td class="loss">0-1</td><td class="win">2-1</td><td class="win">2-0</td><td class="loss">2-3</td><td class="loss">0-1</td><td class="loss">1-3</td><td class="diag">–</td><td class="tie">2-2</td><td class="loss">0-2</td><td class="loss">0-2</td><td class="win">1-0</td><td>·</td><td class="win">2-1</td><td class="win">2-0</td><td>·</td><td>·</td></tr>
+        <tr><th>Hank Herrera</th><td class="loss">0-1</td><td class="tie">2-2</td><td class="win">3-2</td><td class="win">3-1</td><td class="win">1-0</td><td class="win">4-0</td><td class="tie">2-2</td><td class="diag">–</td><td class="win">3-2</td><td class="tie">2-2</td><td class="loss">0-2</td><td class="loss">0-3</td><td class="tie">2-2</td><td class="win">2-0</td><td class="win">1-0</td><td class="loss">0-2</td></tr>
+        <tr><th>Max Aynesworth</th><td class="loss">0-1</td><td class="loss">2-3</td><td class="loss">1-3</td><td class="tie">2-2</td><td class="loss">0-2</td><td class="tie">2-2</td><td class="win">2-0</td><td class="loss">2-3</td><td class="diag">–</td><td class="loss">2-3</td><td class="win">1-0</td><td class="tie">1-1</td><td class="loss">1-2</td><td class="tie">1-1</td><td class="win">2-0</td><td class="loss">0-2</td></tr>
+        <tr><th>James Spitz</th><td class="loss">0-1</td><td class="loss">0-4</td><td class="loss">1-2</td><td class="loss">1-2</td><td class="loss">0-1</td><td class="tie">2-2</td><td class="win">2-0</td><td class="tie">2-2</td><td class="win">3-2</td><td class="diag">–</td><td class="loss">0-1</td><td>·</td><td class="win">3-0</td><td class="win">1-0</td><td>·</td><td>·</td></tr>
+        <tr><th>Premethoy Patel</th><td class="loss">0-1</td><td class="loss">0-1</td><td class="loss">0-1</td><td class="loss">0-2</td><td class="loss">0-1</td><td class="loss">0-1</td><td class="loss">0-1</td><td class="win">2-0</td><td class="loss">0-1</td><td class="win">1-0</td><td class="diag">–</td><td>·</td><td class="tie">1-1</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><th>Cooper Guetzke</th><td>·</td><td class="tie">1-1</td><td class="tie">1-1</td><td class="tie">1-1</td><td>·</td><td class="win">1-0</td><td>·</td><td class="win">3-0</td><td class="tie">1-1</td><td>·</td><td>·</td><td class="diag">–</td><td class="win">2-0</td><td>·</td><td class="win">1-0</td><td class="win">1-0</td></tr>
+        <tr><th>John Williams</th><td class="loss">0-1</td><td class="loss">2-3</td><td class="win">3-2</td><td class="win">3-2</td><td class="loss">0-2</td><td class="tie">2-2</td><td class="loss">1-2</td><td class="tie">2-2</td><td class="win">2-1</td><td class="loss">0-3</td><td class="tie">1-1</td><td class="loss">0-2</td><td class="diag">–</td><td class="tie">1-1</td><td class="loss">0-2</td><td class="win">2-0</td></tr>
+        <tr><th>cash herrera</th><td>·</td><td class="win">1-0</td><td class="win">1-0</td><td class="loss">0-2</td><td>·</td><td class="tie">1-1</td><td class="loss">0-2</td><td class="loss">0-2</td><td class="tie">1-1</td><td class="loss">0-1</td><td>·</td><td>·</td><td class="tie">1-1</td><td class="diag">–</td><td>·</td><td>·</td></tr>
+        <tr><th>Connor Jones</th><td>·</td><td class="loss">0-2</td><td class="loss">0-2</td><td class="win">2-0</td><td>·</td><td class="loss">0-1</td><td>·</td><td class="loss">0-1</td><td class="loss">0-2</td><td>·</td><td>·</td><td class="loss">0-1</td><td class="win">2-0</td><td>·</td><td class="diag">–</td><td class="win">1-0</td></tr>
+        <tr><th>Grayson Klanika</th><td>·</td><td class="win">2-0</td><td class="loss">0-2</td><td class="win">1-0</td><td>·</td><td class="loss">0-2</td><td>·</td><td class="win">2-0</td><td class="win">2-0</td><td>·</td><td>·</td><td class="loss">0-1</td><td class="loss">0-2</td><td>·</td><td class="loss">0-1</td><td class="diag">–</td></tr>
+      </tbody>
+    </table>
+    </div>
   </section>
 </div>
 
@@ -548,6 +802,20 @@ document.addEventListener('DOMContentLoaded', function () {
       var wk = tab.getAttribute('data-week');
       panels.forEach(function (p) {
         p.classList.toggle('hidden', p.getAttribute('data-week-panel') !== wk);
+      });
+    });
+  });
+
+  // standings year tabs
+  var yearTabs = document.querySelectorAll('#yearTabs .week-tab');
+  var yearPanels = document.querySelectorAll('[data-year-panel]');
+  yearTabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      yearTabs.forEach(function (t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      var yr = tab.getAttribute('data-year');
+      yearPanels.forEach(function (p) {
+        p.classList.toggle('hidden', p.getAttribute('data-year-panel') !== yr);
       });
     });
   });

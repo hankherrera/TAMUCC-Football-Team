@@ -333,6 +333,26 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
 .rivalry-record span{color:var(--gold); font-weight:600;}
 .rivalry-note{font-size:13px; color:var(--chalk-dim); text-align:center; max-width:440px; margin:0 auto;}
 
+/* DRAFT COUNTDOWN */
+.countdown-banner{
+  background:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:22px 24px; display:flex; align-items:center; justify-content:space-between;
+  gap:20px; flex-wrap:wrap;
+}
+.countdown-intro{display:flex; flex-direction:column; gap:4px;}
+.countdown-eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase;}
+.countdown-date{font-family:'Anton',sans-serif; font-size:20px; text-transform:uppercase;}
+.countdown-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:0;}
+.countdown-cell{padding:0 20px; border-left:1px solid var(--line); text-align:center;}
+.countdown-cell:first-child{border-left:none;}
+.countdown-value{font-family:'Anton',sans-serif; font-size:32px; color:var(--gold); letter-spacing:0.02em; line-height:1;}
+.countdown-label{font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--chalk-dim); margin-top:6px;}
+@media (max-width:760px){
+  .countdown-banner{flex-direction:column; align-items:flex-start;}
+  .countdown-cell{padding:0 12px;}
+  .countdown-value{font-size:26px;}
+}
+
 /* RECAP / PREVIEW */
 .recap-preview-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
 .recap-preview-card{
@@ -440,6 +460,33 @@ footer a{text-decoration:underline; text-underline-offset:3px;}
         <div class="sb-label">2025 Punishment</div>
         <div class="sb-value">Hot Wing<br>Challenge</div>
         <div class="sb-sub">Jaren hall is my goat · Not Completed</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="draft-countdown" style="border-top:none; padding-top:0;">
+    <div class="countdown-banner">
+      <div class="countdown-intro">
+        <div class="countdown-eyebrow">Mark Your Calendar</div>
+        <div class="countdown-date">2026 Draft — September 7, 7:00 PM</div>
+      </div>
+      <div class="countdown-grid" id="draftCountdown">
+        <div class="countdown-cell">
+          <div class="countdown-value" id="cd-days">--</div>
+          <div class="countdown-label">Days</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-value" id="cd-hours">--</div>
+          <div class="countdown-label">Hours</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-value" id="cd-mins">--</div>
+          <div class="countdown-label">Mins</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-value" id="cd-secs">--</div>
+          <div class="countdown-label">Secs</div>
+        </div>
       </div>
     </div>
   </section>
@@ -639,6 +686,36 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
+
+  // draft countdown
+  var draftTarget = new Date('2026-09-07T19:00:00');
+  var cdDays = document.getElementById('cd-days');
+  var cdHours = document.getElementById('cd-hours');
+  var cdMins = document.getElementById('cd-mins');
+  var cdSecs = document.getElementById('cd-secs');
+  if (cdDays && cdHours && cdMins && cdSecs) {
+    function updateCountdown() {
+      var now = new Date();
+      var diff = draftTarget - now;
+      if (diff <= 0) {
+        cdDays.textContent = '0';
+        cdHours.textContent = '0';
+        cdMins.textContent = '0';
+        cdSecs.textContent = '0';
+        return;
+      }
+      var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      var mins = Math.floor((diff / (1000 * 60)) % 60);
+      var secs = Math.floor((diff / 1000) % 60);
+      cdDays.textContent = days;
+      cdHours.textContent = hours;
+      cdMins.textContent = mins;
+      cdSecs.textContent = secs;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
 });
 
 </script>
